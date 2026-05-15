@@ -12,26 +12,44 @@ const URL_API = "https://api-palavras-8ptt.onrender.com";
 const somAcerto = new Audio('acertos.mp3');
 const somErro = new Audio('erros.mp3');
 
-async function iniciarJogo(event) {
-    if (event.key == "Enter") {
-        const nickname = document.getElementById('nickname-input').value;
-        if (!nickname) {
-            alert('Preencha o nickname!');
-            return;
-        }
+async function iniciarJogoPorNivel(nivel) {
+    const nicknameInput = document.getElementById('nickname-input');
+    const nickname = nicknameInput.value;
 
+    if (!nickname) {
+        alert('Por favor, digite seu nickname antes de escolher o nível!');
+        return;
+    }
+
+    try {
         const response = await fetch(`${URL_API}/iniciar`, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nickname: nickname })
+            body: JSON.stringify({ 
+                nickname: nickname,
+                nivel: nivel // Envia o nível selecionado para a API
+            })
         });
 
         const data = await response.json();
+
+        if (data.erro) {
+            alert(data.erro);
+            return;
+        }
+
+        // Esconde o setup e mostra o jogo
         setupContainer.classList.add('hidden');
         gameContainer.classList.remove('hidden');
-        document.getElementById('player-display').innerText = `Bem-vindo, ${nickname}! Boa sorte!`;
-        buscarPalavra();
+        
+        // Exibe saudação com o nível escolhido
+        document.getElementById('player-display').innerText = `Boa sorte, ${nickname}! Nível: ${nivel.toUpperCase()}`;
+        
+        buscarPalavra(); // Inicia a busca da palavra e dica
+    } catch (error) {
+        console.error("Erro na conexão:", error);
+        alert("Não foi possível conectar à API.");
     }
 }
 
@@ -39,7 +57,7 @@ async function buscarPalavra() {
     const response = await fetch(`${URL_API}/status`, { credentials: 'include', method: 'GET' });
     const data = await response.json();
 
-    // Mostra a dica da API [Funcionalidade 5]
+    // Mostra a dica retornada pela API
     hintText.innerText = data.dica;
     wordDisplay.innerHTML = '';
 
@@ -66,7 +84,7 @@ async function tentarLetra(event) {
 
         const data = await response.json();
 
-        // Lógica de Áudio [Funcionalidade 2]
+        // Lógica de Áudio e preenchimento das letras
         if (data.posicoes && data.posicoes.length > 0) {
             somAcerto.play();
             data.posicoes.forEach(pos => {
@@ -80,19 +98,21 @@ async function tentarLetra(event) {
 
         errorCount.innerText = data.erros_atuais;
 
-        // Fim de Jogo [Funcionalidade 3 e 6]
+        // Verificação do Fim de Jogo
         if (data.status_jogo !== 'Jogando') {
             resetBtn.classList.remove('hidden');
             input.disabled = true;
 
             if (data.status_jogo === 'Derrota') {
-                document.body.className = 'derrota'; // Muda cor de fundo
+                document.body.className = 'derrota'; // Aplica a cor de fundo definida no CSS
+                // Substitui a mensagem genérica pela palavra correta
                 gameMessage.innerHTML = `VOCÊ PERDEU!<br>A palavra era: <strong>${data.palavra.toUpperCase()}</strong>`;
             } else {
-                document.body.className = 'vitoria'; // Muda cor de fundo
+                document.body.className = 'vitoria'; // Aplica a cor de fundo definida no CSS
                 gameMessage.innerText = "🏆 PARABÉNS! VOCÊ ACERTOU!";
             }
         } else {
+            // Se o jogo continua, mostra se a letra estava certa ou errada
             gameMessage.innerText = data.mensagem;
         }
     }
