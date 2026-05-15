@@ -1,0 +1,95 @@
+body {
+    font-family: "Aclonica", sans-serif;
+    background-color: #121213; 
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    transition: background-color 0.5s ease;
+}
+
+.container {
+    background: #1b1b1c;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    text-align: center;
+    width: 450px;
+    border: 1px solid #3a3a3c;
+}
+
+#hint-box {
+    background-color: #272729;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #538d4e;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.word-slots {
+    display: flex;
+    flex-direction: row; /* Garante que os quadrados fiquem na horizontal */
+    justify-content: center;
+    gap: 10px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.letter-slot {
+    width: 45px;
+    height: 55px;
+    border: 2px solid #3a3a3c;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Quando a letra é preenchida */
+.revealed {
+    background-color: #538d4e;
+    border-color: #538d4e;
+}
+
+input {
+    padding: 12px;
+    background: transparent;
+    border: 2px solid #3a3a3c;
+    color: white;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    text-align: center;
+    outline: none;
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #538d4e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.instruction { font-size: 0.8rem; color: #818384; margin-top: 10px; }
+
+footer {
+    margin-top: 30px;
+    font-size: 0.75rem;
+    color: #565758;
+    border-top: 1px solid #3a3a3c;
+    padding-top: 15px;
+}
+
+.hidden { display: none; }
+
+/* Cores de status final */
+.vitoria { background-color: #1a2e1a !important; }
+.derrota { background-color: #2e1a1a !important; }

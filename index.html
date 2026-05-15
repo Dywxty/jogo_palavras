@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo das Palavras | SENAI</title>
+    <link rel="stylesheet" href="index.css">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Fascinate&family=Stalemate&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Jogo das Palavras</h1>
+
+        <div id="setup-container">
+            <input type="text" id="nickname-input" placeholder="Digite seu nickname..." onkeypress="iniciarJogo(event)">
+            <p class="instruction">Pressione Enter para começar</p>
+        </div>
+
+        <div id="game-container" class="hidden">
+            <h2 id="player-display"></h2>
+
+            <div id="hint-box">
+                <strong>Dica:</strong> <span id="hint-text"></span>
+            </div>
+
+            <div id="word-display" class="word-slots"></div>
+
+            <div class="input-group">
+                <input type="text" id="letter-input" maxlength="1" placeholder="Letra" onkeypress="tentarLetra(event)">
+                <p class="instruction">Digite e aperte Enter</p>
+            </div>
+
+            <div class="status-info">
+                <p id="error-display">Erros: <span id="error-count">0</span> / 4</p>
+                <p id="game-message"></p>
+            </div>
+
+            <button id="reset-btn" class="hidden" onclick="reiniciarJogo()">Jogar Novamente</button>
+        </div>
+
+        <footer>
+            Desenvolvido por <strong>Talacchia</strong> - Aluna DEV - SENAI 2026
+        </footer>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
